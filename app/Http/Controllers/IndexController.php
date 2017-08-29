@@ -64,7 +64,8 @@ class IndexController extends Controller
         $project = new Project();
         $project->name = $name;
         $project->save();
-        return $project->toJson();
+        $newProject = Project::with('tasks')->find($project->id)->toJson();
+        return $newProject;
     }
 
 

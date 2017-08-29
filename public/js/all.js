@@ -1746,7 +1746,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -2189,8 +2188,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control task-name",
     attrs: {
       "type": "text",
-      "placeholder": "Start typing here to create a task...",
-      "aria-describedby": "basic-addon1"
+      "placeholder": "Start typing here to create a task..."
     },
     domProps: {
       "value": (_vm.taskName)

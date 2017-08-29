@@ -5,8 +5,7 @@
                 <span class="input-group-addon add-icon">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 </span>
-                <input @keyup.enter.prevent="addTask(taskName)"  v-model="taskName" type="text" class="form-control task-name" placeholder="Start typing here to create a task..."
-                       aria-describedby="basic-addon1">
+                <input @keyup.enter.prevent="addTask(taskName)"  v-model="taskName" type="text" class="form-control task-name" placeholder="Start typing here to create a task...">
                 <span class="input-group-btn">
                     <button @click="addTask(taskName)" class="btn btn-default add-task" type="button">Add task</button>
                 </span>
