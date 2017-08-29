@@ -1,0 +1,110 @@
+#app{
+    max-width: 700px;
+}
+
+.navbar.project {
+    background-color: #337ab7 !important;
+    margin-bottom: 0;
+}
+
+.navbar-btn, .navbar-default, .navbar-form .btn-default{
+    background: none;
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.navbar-default .navbar-text {
+    color: #fff;
+}
+
+.navbar-default .btn-default {
+    color: #fff;
+}
+.navbar-form .btn-default {
+}
+.navbar-default .navbar-brand {
+    color: #000;
+}
+
+.glyphicon-calendar {
+    font-size: 1.5em;
+}
+
+.create-task {
+    padding: 8px 6px 10px 6px;
+    background-color: #e8e8e8;
+}
+
+.add-task.btn-default {
+    text-shadow: none;
+    color: #fff;
+    border: rgba(48, 115, 48, 0.69) 1px solid;
+    background: none;
+    background-color: rgba(48, 115, 48, 0.69);
+}
+
+.glyphicon-plus {
+    color: rgba(48, 115, 48, 0.69);
+}
+
+.input-group-addon.add-icon {
+    border: none;
+    background: none;
+}
+
+.glyphicon-plus {
+    font-size: 1.3em;
+}
+
+.task-title:disabled, .project-title:disabled {
+    border: none;
+    box-shadow: none;
+    background: none;
+    cursor: default;
+}
+
+.edit-task-buttons > .btn-default {
+    border: none;
+    border-radius: 0;
+    border-right: 1px #ccc solid;
+    background: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    font-size: 0.95em;
+}
+
+td.edit-task-buttons > button:nth-child(3) {
+    border: none;
+}
+
+.project .table td {
+    padding: 2px 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+.task-input .input-group-addon{
+    padding: 3px;
+}
+table{
+    background-color: white;
+}
+.project-title{
+    width: 480px !important;
+}
+.project-title:disabled{
+    color: #fff;
+}
+.edit-task-buttons > .edit{
+    border: none;
+}
+.is-completed{
+    text-decoration: line-through;
+}
+.is-completed-tr{
+    background-color: rgba(230, 180, 111, 0.13);
+}
+.glyphicon.glyphicon-ok{
+    color: green;
+    font-size: 1.2em;
+}
