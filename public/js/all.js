@@ -1679,7 +1679,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleRemoveTask: function handleRemoveTask(taskIndex) {
             var task = this.project.tasks[taskIndex];
             var project = this.project;
-            axios.post('/deleteTask', {
+            axios.post('deleteTask', {
                 id: task.id
             }).then(function (response) {
                 project.tasks.splice(taskIndex, 1);
@@ -1693,7 +1693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         handleUpdateTask: function handleUpdateTask(taskIndex) {
             var task = this.project.tasks[taskIndex];
             var project = this.project;
-            axios.post('/updateTask', {
+            axios.post('updateTask', {
                 id: task.id,
                 name: task.name,
                 is_completed: task.is_completed
@@ -1708,7 +1708,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if ('tasks' in project) {} else {
                 project.tasks = [];
             }
-            axios.post('/createTask', {
+            axios.post('createTask', {
                 name: taskName,
                 project_id: project.id
             }).then(function (response) {

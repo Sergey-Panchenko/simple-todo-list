@@ -56,7 +56,7 @@
             handleRemoveTask: function (taskIndex) {
                 let task = this.project.tasks[taskIndex];
                 let project = this.project
-                axios.post('/deleteTask', {
+                axios.post('deleteTask', {
                     id: task.id,
                 })
                     .then(function (response) {
@@ -72,7 +72,7 @@
             handleUpdateTask: function (taskIndex) {
                 let task = this.project.tasks[taskIndex];
                 let project = this.project;
-                axios.post('/updateTask', {
+                axios.post('updateTask', {
                     id: task.id,
                     name: task.name,
                     is_completed: task.is_completed,
@@ -90,7 +90,7 @@
                 }else{
                     project.tasks = [];
                 }
-                axios.post('/createTask', {
+                axios.post('createTask', {
                     name: taskName,
                     project_id: project.id
                 })
