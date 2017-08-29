@@ -1,47 +1,6 @@
 window.Vue = require('vue');
 window.axios = require('axios');
-// var dataProjects;
-// $.ajax({
-//     url: '/projects',
-//     type: 'get',
-//     dataType: 'json',
-//     async: false,
-//     success: function (result) {
-//         dataProjects = result;
-//     }
-// });
-// var app = new Vue({
-//     el: '#project',
-//     data: {
-//         projects: dataProjects
-//     },
-// });
-
-// app.projects = {name:'ewewewe'};
-// console.log(app);
-
-// Vue.component('child', require('./components/Child.vue'));
-// new Vue({
-//     el: '#projects',
-//     // опции
-// });
-// var app = new Vue({
-//     el: '#app-3',
-//     data: {
-//         projects: projects,
-//     },
-//     methods: {
-//         removeTask: function (projectIndex, taskIndex) {
-//             // this.projects[projectIndex].tasks[taskIndex];
-//             this.projects[projectIndex].tasks.splice(taskIndex, 1)
-//             console.log(this.projects[projectIndex].tasks[taskIndex]);
-//             console.log('projectIndex ' + projectIndex);
-//             console.log('taskIndex ' + taskIndex);
-//         }
-//     }
-// });
 Vue.component('project', require('./components/Project.vue'));
-Vue.component('project-nav-bar', require('./components/project/NavBar.vue'));
 Vue.component('create-task', require('./components/project/CreateTask.vue'));
 Vue.component('task', require('./components/project/Task.vue'));
 

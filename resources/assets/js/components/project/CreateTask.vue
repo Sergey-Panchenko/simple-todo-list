@@ -22,6 +22,7 @@
         props: ['project'],
         methods: {
             addTask: function (taskName) {
+                this.taskName = '';
                 this.$emit('create-task', taskName);
             }
         }

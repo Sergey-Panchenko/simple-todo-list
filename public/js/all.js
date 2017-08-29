@@ -1754,43 +1754,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['project'],
     methods: {
         addTask: function addTask(taskName) {
+            this.taskName = '';
             this.$emit('create-task', taskName);
         }
     }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/project/NavBar.vue":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['project']
 });
 
 /***/ }),
@@ -2527,70 +2494,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-8151e72e", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bd006b58\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/project/NavBar.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "row"
-  }, [_c('nav', {
-    staticClass: "navbar navbar-default"
-  }, [_c('div', {
-    staticClass: "container-fluid"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "collapse navbar-collapse",
-    attrs: {
-      "id": "bs-example-navbar-collapse-1"
-    }
-  }, [_c('p', {
-    staticClass: "navbar-text"
-  }, [_vm._v(_vm._s(_vm.project.name))]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "navbar-header"
-  }, [_c('span', {
-    staticClass: "navbar-brand glyphicon glyphicon-calendar",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default navbar-btn navbar-right",
-    attrs: {
-      "type": "button",
-      "aria-label": "Left Align"
-    }
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-trash",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default navbar-btn navbar-right",
-    attrs: {
-      "type": "button",
-      "aria-label": "Left Align"
-    }
-  }, [_c('span', {
-    staticClass: "glyphicon glyphicon-pencil",
-    attrs: {
-      "aria-hidden": "true"
-    }
-  })])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-bd006b58", module.exports)
   }
 }
 
@@ -12725,48 +12628,7 @@ module.exports = g;
 
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 window.axios = __webpack_require__("./node_modules/axios/index.js");
-// var dataProjects;
-// $.ajax({
-//     url: '/projects',
-//     type: 'get',
-//     dataType: 'json',
-//     async: false,
-//     success: function (result) {
-//         dataProjects = result;
-//     }
-// });
-// var app = new Vue({
-//     el: '#project',
-//     data: {
-//         projects: dataProjects
-//     },
-// });
-
-// app.projects = {name:'ewewewe'};
-// console.log(app);
-
-// Vue.component('child', require('./components/Child.vue'));
-// new Vue({
-//     el: '#projects',
-//     // опции
-// });
-// var app = new Vue({
-//     el: '#app-3',
-//     data: {
-//         projects: projects,
-//     },
-//     methods: {
-//         removeTask: function (projectIndex, taskIndex) {
-//             // this.projects[projectIndex].tasks[taskIndex];
-//             this.projects[projectIndex].tasks.splice(taskIndex, 1)
-//             console.log(this.projects[projectIndex].tasks[taskIndex]);
-//             console.log('projectIndex ' + projectIndex);
-//             console.log('taskIndex ' + taskIndex);
-//         }
-//     }
-// });
 Vue.component('project', __webpack_require__("./resources/assets/js/components/Project.vue"));
-Vue.component('project-nav-bar', __webpack_require__("./resources/assets/js/components/project/NavBar.vue"));
 Vue.component('create-task', __webpack_require__("./resources/assets/js/components/project/CreateTask.vue"));
 Vue.component('task', __webpack_require__("./resources/assets/js/components/project/Task.vue"));
 
@@ -12887,47 +12749,6 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-3fc10c85", Component.options)
   } else {
     hotAPI.reload("data-v-3fc10c85", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ "./resources/assets/js/components/project/NavBar.vue":
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var Component = __webpack_require__("./node_modules/vue-loader/lib/component-normalizer.js")(
-  /* script */
-  __webpack_require__("./node_modules/babel-loader/lib/index.js?{\"cacheDirectory\":true,\"presets\":[[\"env\",{\"modules\":false,\"targets\":{\"browsers\":[\"> 2%\"],\"uglify\":true}}]]}!./node_modules/vue-loader/lib/selector.js?type=script&index=0!./resources/assets/js/components/project/NavBar.vue"),
-  /* template */
-  __webpack_require__("./node_modules/vue-loader/lib/template-compiler/index.js?{\"id\":\"data-v-bd006b58\",\"hasScoped\":false}!./node_modules/vue-loader/lib/selector.js?type=template&index=0!./resources/assets/js/components/project/NavBar.vue"),
-  /* styles */
-  null,
-  /* scopeId */
-  null,
-  /* moduleIdentifier (server only) */
-  null
-)
-Component.options.__file = "/Users/developer/Project/Laravel/ruby/resources/assets/js/components/project/NavBar.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] NavBar.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-bd006b58", Component.options)
-  } else {
-    hotAPI.reload("data-v-bd006b58", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
