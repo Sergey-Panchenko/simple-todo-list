@@ -22,7 +22,7 @@
 
 
     <!-- Latest compiled and minified JavaScript -->
-    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="{{asset('/css/main.css')}}">
 
     {{--Scripts--}}
     <script src="http://code.jquery.com/jquery-3.0.0.js"
