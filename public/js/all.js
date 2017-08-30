@@ -13090,18 +13090,21 @@ var app = new Vue({
     methods: {
         logout: function logout() {
             this.user = {};
+            this.projects = {};
             axios.post('/logout').then(function (response) {}).catch(function (error) {
                 console.log(error);
             });
         },
         handleLogged: function handleLogged(user) {
-            this.user = user;
+            this.user = user.user;
+            this.projects = user.projects;
         },
         createProject: function createProject(projectName) {
+            var self = this;
             axios.post('/createProject', {
                 projectName: projectName
             }).then(function (response) {
-                this.projects.unshift(response.data);
+                self.projects.unshift(response.data);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -13109,10 +13112,11 @@ var app = new Vue({
         },
         handleRemoveProject: function handleRemoveProject(projectIndex) {
             var project = this.projects[projectIndex];
+            var self = this;
             axios.post('/deleteProject', {
                 id: project.id
             }).then(function (response) {
-                this.projects.splice(projectIndex, 1);
+                self.projects.splice(projectIndex, 1);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -13121,12 +13125,13 @@ var app = new Vue({
             Vue.set(this.projects[projectIndex], 'edit', true);
         },
         handleUpdateProject: function handleUpdateProject(projectIndex) {
+            var self = this;
             var project = this.projects[projectIndex];
             axios.post('/updateProject', {
                 id: project.id,
                 name: project.name
             }).then(function (response) {
-                Vue.set(this.projects[projectIndex], 'edit', false);
+                Vue.set(self.projects[projectIndex], 'edit', false);
             }).catch(function (error) {
                 console.log(error);
             });

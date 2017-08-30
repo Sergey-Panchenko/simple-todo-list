@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -66,7 +68,7 @@ class LoginController extends Controller
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return void
      */
     protected function validateLogin(Request $request)
@@ -80,7 +82,7 @@ class LoginController extends Controller
     /**
      * Attempt to log the user into the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return bool
      */
     protected function attemptLogin(Request $request)
@@ -93,7 +95,7 @@ class LoginController extends Controller
     /**
      * Get the needed authorization credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     protected function credentials(Request $request)
@@ -104,7 +106,7 @@ class LoginController extends Controller
     /**
      * Send the response after the user was authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     protected function sendLoginResponse(Request $request)
@@ -112,14 +114,16 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
-        return $this->guard()->user()->toJson();
+        $data = collect(['user' => $this->guard()->user(),
+            'projects' => Project::with('tasks')->where('user_id', $this->guard()->user()->id)->get()]);
+        return $data->toJson();
     }
 
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
+     * @param  \Illuminate\Http\Request $request
+     * @param  mixed $user
      * @return mixed
      */
     protected function authenticated(Request $request, $user)
@@ -130,7 +134,7 @@ class LoginController extends Controller
     /**
      * Get the failed login response instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     protected function sendFailedLoginResponse(Request $request)
@@ -159,7 +163,7 @@ class LoginController extends Controller
     /**
      * Log the user out of the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function logout(Request $request)
@@ -178,5 +182,10 @@ class LoginController extends Controller
     protected function guard()
     {
         return \Auth::guard();
+    }
+
+    public function showLoginForm()
+    {
+        abort(404);
     }
 }

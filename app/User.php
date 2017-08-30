@@ -29,6 +29,6 @@ class User extends Authenticatable
     ];
 
     public function projects(){
-        return $this->hasMany(Project::class)->orderBy('created_at', 'DESC');
+        return $this->hasMany(Project::class)->with('tasks')->orderBy('created_at', 'DESC');
     }
 }
