@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Project;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,7 +20,9 @@ class RegisterController extends Controller
         $user = $this->create($request->all());
 
         $this->guard()->login($user);
-        return $user->toJson();
+        $data = collect(['user' => $this->guard()->user(),
+            'projects' => Project::with('tasks')->where('user_id', $this->guard()->user()->id)->get()]);
+        return $data->toJson();
     }
 
     /**
