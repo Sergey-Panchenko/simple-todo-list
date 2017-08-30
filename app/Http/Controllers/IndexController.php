@@ -10,10 +10,12 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $projects = Project::with('tasks')->get()->toJson();
         $user = collect([])->toJson();
+        $projects = collect([])->toJson();
+
         if (\Auth::check()) {
             $user = \Auth::user()->toJson();
+            $projects = \Auth::user()->projects->toJson();
         }
         return view('index', compact('projects','user'));
     }
@@ -67,6 +69,7 @@ class IndexController extends Controller
         $name = $request->get('projectName');
         $project = new Project();
         $project->name = $name;
+        $project->user_id = \Auth::user()->id;
         $project->save();
         $newProject = Project::with('tasks')->find($project->id)->toJson();
         return $newProject;
