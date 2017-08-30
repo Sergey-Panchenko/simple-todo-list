@@ -3,14 +3,31 @@ window.axios = require('axios');
 Vue.component('project', require('./components/Project.vue'));
 Vue.component('create-task', require('./components/project/CreateTask.vue'));
 Vue.component('task', require('./components/project/Task.vue'));
+Vue.component('login', require('./components/Login.vue'));
+Vue.component('register', require('./components/Register.vue'));
+Vue.component('auth', require('./components/Auth.vue'));
 
 var app = new Vue({
     el: '#app',
     data: {
+        user: user,
         projects: projects,
         projectName: '',
     },
     methods: {
+        logout: function () {
+            this.user = {};
+            axios.post('/logout')
+                .then(function (response) {
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
+        handleLogged: function(user) {
+            this.user = user;
+        },
         createProject: function (projectName) {
             axios.post('/createProject', {
                 projectName: projectName,
@@ -29,12 +46,12 @@ var app = new Vue({
             axios.post('/deleteProject', {
                 id: project.id,
             })
-            .then(function (response) {
-                this.projects.splice(projectIndex, 1);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+                .then(function (response) {
+                    this.projects.splice(projectIndex, 1);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
 
         },
         handleEditProject: function (projectIndex) {
@@ -53,7 +70,39 @@ var app = new Vue({
                     console.log(error);
                 });
         },
+    },
+    computed: {
+        currentComponent: {
+            get: function () {
+                if (!this.user.name) {
+                    return 'auth';
+                }
+                return 'project';
+            },
+        }
     }
 });
 
-
+$(".sortable").sortable({
+    delay: 150,
+    axis: "y",
+    cursor: "move",
+    classes: {
+        "ui-icon-arrowthick-2-n-s": "glyphicon-move",
+    },
+    update: function (event, ui) {
+        let newOrder = [];
+        $('.sortable tr').each(function () {
+            let id = $(this).attr("id");
+            newOrder.push(id);
+        });
+        axios.post('/sortTask', {
+            order: newOrder,
+        })
+        .then(function (response) {
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+});

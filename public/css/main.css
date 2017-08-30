@@ -63,6 +63,9 @@
     background: none;
     cursor: default;
 }
+.form-control.task-title{
+    min-width: 460;
+}
 
 .edit-task-buttons > .btn-default {
     border: none;
@@ -107,4 +110,36 @@ table{
 .glyphicon.glyphicon-ok{
     color: green;
     font-size: 1.2em;
+}
+.edit-task-buttons span{
+    margin-right: 4px;
+    padding-right: 8px;
+    border-radius: 0;
+    border-right: 1px #4a4747 solid;
+}
+.edit-task-buttons .glyphicon-trash{
+    border: none;
+}
+.glyphicon-move{
+    cursor: move;
+}
+.ui-state-default.ui-sortable-handle{
+    background: #fff !important;
+    color: #000 !important;
+}
+.auth-navbar{
+    margin-top: 30px;
+}
+.btn.btn-default.btn-logout{
+    background: none;
+    color: #000;
+    border: none;
+    box-shadow: none;
+    margin-top: 2px;
+}
+.navbar-text.navbar-user{
+    padding-left: 10px;
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
 }

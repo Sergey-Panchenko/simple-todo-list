@@ -11,7 +11,11 @@ class IndexController extends Controller
     public function index()
     {
         $projects = Project::with('tasks')->get()->toJson();
-        return view('index', compact('projects'));
+        $user = collect([])->toJson();
+        if (\Auth::check()) {
+            $user = \Auth::user()->toJson();
+        }
+        return view('index', compact('projects','user'));
     }
 
     public function deleteProject(Request $request)
@@ -66,6 +70,15 @@ class IndexController extends Controller
         $project->save();
         $newProject = Project::with('tasks')->find($project->id)->toJson();
         return $newProject;
+    }
+    public function sortTask(Request $request) {
+        $newOrder = $request->get('order');
+
+        foreach ($newOrder as $position => $taskId) {
+            $task = Task::find($taskId);
+            $task->position = $position;
+            $task->save();
+        }
     }
 
 

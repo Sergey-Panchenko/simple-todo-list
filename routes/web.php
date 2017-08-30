@@ -22,3 +22,7 @@ Route::post('/deleteTask','IndexController@deleteTask');
 Route::post('/updateTask','IndexController@updateTask');
 Route::post('/createTask','IndexController@createTask');
 Route::post('/createProject','IndexController@createProject');
+Route::post('/sortTask','IndexController@sortTask');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

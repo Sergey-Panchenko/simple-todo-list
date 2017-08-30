@@ -29,7 +29,7 @@
         <create-task @create-task="handleCreateTask"></create-task>
         <div class="row">
             <table class="table table-bordered">
-                <tbody>
+                <tbody class="sortable">
                 <task @update-task="handleUpdateTask" @edit-task="handleEditTask" @remove-task="handleRemoveTask" v-for="(task, taskIndex) in project.tasks" :taskIndex="taskIndex"
                       v-bind:task="task" v-bind:key="task.id"></task>
                 </tbody>
@@ -40,9 +40,6 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        },
         methods: {
             removeProject: function (projectIndex) {
                 this.$emit('remove-project', projectIndex);
@@ -96,8 +93,6 @@
                 })
                     .then(function (response) {
                         project.tasks.unshift(response.data);
-                        console.log(response);
-
                     })
                     .catch(function (error) {
                         console.log(error);
