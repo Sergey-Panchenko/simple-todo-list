@@ -1788,6 +1788,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('updateTask', {
                 id: task.id,
                 name: task.name,
+                deadline: task.deadline,
                 is_completed: task.is_completed
             }).then(function (response) {
                 Vue.set(project.tasks[taskIndex], 'edit', false);
@@ -1996,7 +1997,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var vm = this;
         $('.task-deadline').datepicker({
-            onSelect: function onSelect(dateText) {},
+            onSelect: function onSelect(dateText) {
+                vm.task.deadline = dateText;
+            },
             dateFormat: 'yy-mm-dd'
         });
 

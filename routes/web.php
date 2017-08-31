@@ -1,28 +1,13 @@
 <?php
-//
-///*
-//|--------------------------------------------------------------------------
-//| Web Routes
-//|--------------------------------------------------------------------------
-//|
-//| Here is where you can register web routes for your application. These
-//| routes are loaded by the RouteServiceProvider within a group which
-//| contains the "web" middleware group. Now create something great!
-//|
-//*/
-//
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/', 'IndexController@index')->name('home');
-Route::post('/deleteProject','IndexController@deleteProject');
-Route::post('/updateProject','IndexController@updateProject');
-Route::post('/deleteTask','IndexController@deleteTask');
-Route::post('/updateTask','IndexController@updateTask');
-Route::post('/createTask','IndexController@createTask');
-Route::post('/createProject','IndexController@createProject');
-Route::post('/sortTask','IndexController@sortTask');
 Auth::routes();
+Route::get('/', 'IndexController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/createProject','ProjectController@create');
+Route::post('/updateProject','ProjectController@update');
+Route::post('/deleteProject','ProjectController@delete');
+
+Route::post('/createTask','TaskController@create');
+Route::post('/updateTask','TaskController@update');
+Route::post('/deleteTask','TaskController@delete');
+Route::post('/sortTask','TaskController@sort');

@@ -76,6 +76,7 @@
                 axios.post('updateTask', {
                     id: task.id,
                     name: task.name,
+                    deadline: task.deadline,
                     is_completed: task.is_completed,
                 })
                     .then(function (response) {

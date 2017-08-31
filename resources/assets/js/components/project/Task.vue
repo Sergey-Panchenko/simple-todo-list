@@ -36,6 +36,7 @@
             let vm = this;
             $('.task-deadline').datepicker({
                 onSelect: function(dateText) {
+                    vm.task.deadline = dateText;
                 },
                 dateFormat: 'yy-mm-dd',
             });
