@@ -1990,9 +1990,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
+        var vm = this;
+        $('.task-deadline').datepicker({
+            onSelect: function onSelect(dateText) {},
+            dateFormat: 'yy-mm-dd'
+        });
 
         $(".sortable").sortable({
             delay: 150,
@@ -2971,10 +2977,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "width": "72%"
     }
   }, [_c('div', {
-    staticClass: "input-group task-input"
-  }, [_c('span', {
-    staticClass: "input-group-addon add-icon"
-  }), _vm._v(" "), _c('input', {
+    staticClass: "input-group task-input",
+    staticStyle: {
+      "display": "inline-block"
+    }
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2997,6 +3004,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.task.name = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "input-group date",
+    staticStyle: {
+      "display": "inline-block"
+    },
+    attrs: {
+      "data-provide": "datepicker"
+    }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.task.deadline),
+      expression: "task.deadline"
+    }],
+    staticClass: "form-control task-deadline",
+    attrs: {
+      "disabled": !_vm.task.edit,
+      "data-date-format": "dd/mm/yyyy",
+      "type": "text",
+      "placeholder": "Deadline"
+    },
+    domProps: {
+      "value": (_vm.task.deadline)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.task.deadline = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('td', {
