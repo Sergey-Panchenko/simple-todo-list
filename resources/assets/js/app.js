@@ -13,7 +13,9 @@ var app = new Vue({
         user: user,
         projects: projects,
         projectName: '',
+        errors: [],
     },
+
     methods: {
         logout: function () {
             this.user = {};
@@ -37,12 +39,17 @@ var app = new Vue({
             })
                 .then(function (response) {
                     self.projects.unshift(response.data);
+                    self.errors.splice(0, self.errors.length);
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    if (error.response) {
+                        self.errors.splice(0, self.errors.length);
+                        $.each(error.response.data, function (i, key) {
+                            self.errors.push(key);
+                        });
+                    }
                 });
             this.projectName = '';
-
         },
         handleRemoveProject: function (projectIndex) {
             let project = this.projects[projectIndex];
@@ -88,26 +95,3 @@ var app = new Vue({
     }
 });
 
-$(".sortable").sortable({
-    delay: 150,
-    axis: "y",
-    cursor: "move",
-    classes: {
-        "ui-icon-arrowthick-2-n-s": "glyphicon-move",
-    },
-    update: function (event, ui) {
-        let newOrder = [];
-        $('.sortable tr').each(function () {
-            let id = $(this).attr("id");
-            newOrder.push(id);
-        });
-        axios.post('/sortTask', {
-            order: newOrder,
-        })
-            .then(function (response) {
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-});

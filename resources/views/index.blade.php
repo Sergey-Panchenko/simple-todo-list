@@ -19,6 +19,10 @@
 <body>
 <div class="container project" id="app">
     <div v-if="currentComponent == 'project'">
+        <div class="alert alert-danger" role="alert" v-for="error in errors">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span> @{{error}}
+        </div>
         <nav class="navbar navbar-default project-navbar">
             <div class="container-fluid">
                 <div class="navbar-header">

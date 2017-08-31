@@ -1752,6 +1752,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     methods: {
@@ -1791,21 +1795,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
-        handleCreateTask: function handleCreateTask(taskName) {
+        handleCreateTask: function handleCreateTask(taskName, deadline) {
             var project = this.project;
+            var self = this;
             if ('tasks' in project) {} else {
                 project.tasks = [];
             }
             axios.post('createTask', {
                 name: taskName,
-                project_id: project.id
+                project_id: project.id,
+                deadline: deadline
             }).then(function (response) {
                 project.tasks.unshift(response.data);
+                self.errors.splice(0, self.errors.length);
             }).catch(function (error) {
-                console.log(error);
+                if (error.response) {
+                    self.errors.splice(0, self.errors.length);
+                    $.each(error.response.data, function (i, key) {
+                        self.errors.push(key);
+                    });
+                }
             });
         }
 
+    },
+    data: function data() {
+        return { errors: [] };
     },
     props: ['project', 'projectIndex']
 });
@@ -1907,16 +1922,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
-        return { taskName: '' };
+        return { taskName: '', deadline: '' };
+    },
+    mounted: function mounted() {
+        var vm = this;
+        $('.datepicker').datepicker({
+            onSelect: function onSelect(dateText) {
+                vm.deadline = dateText;
+            },
+            dateFormat: 'yy-mm-dd'
+        });
     },
     props: ['project'],
     methods: {
-        addTask: function addTask(taskName) {
+        addTask: function addTask(taskName, deadline) {
+            this.$emit('create-task', taskName, deadline);
             this.taskName = '';
-            this.$emit('create-task', taskName);
+            this.deadline = '';
         }
     }
 });
@@ -1961,6 +1992,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {
+
+        $(".sortable").sortable({
+            delay: 150,
+            axis: "y",
+            cursor: "move",
+            classes: {
+                "ui-icon-arrowthick-2-n-s": "glyphicon-move"
+            },
+            update: function update(event, ui) {
+                var newOrder = [];
+                $('.sortable tr').each(function () {
+                    var id = $(this).attr("id");
+                    newOrder.push(id);
+                });
+                axios.post('/sortTask', {
+                    order: newOrder
+                }).then(function (response) {}).catch(function (error) {
+                    console.log(error);
+                });
+            }
+        });
+    },
     methods: {
         removeTask: function removeTask(taskIndex) {
             this.$emit('remove-task', taskIndex);
@@ -2321,14 +2375,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         $event.preventDefault();
-        _vm.addTask(_vm.taskName)
+        _vm.addTask(_vm.taskName, _vm.deadline)
       },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.taskName = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _c('div', {
+    staticClass: "input-group date",
+    attrs: {
+      "data-provide": "datepicker"
+    }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.deadline),
+      expression: "deadline"
+    }],
+    staticClass: "form-control datepicker",
+    attrs: {
+      "data-date-format": "dd/mm/yyyy",
+      "type": "text",
+      "placeholder": "Deadline"
+    },
+    domProps: {
+      "value": (_vm.deadline)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.deadline = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('span', {
     staticClass: "input-group-btn"
   }, [_c('button', {
     staticClass: "btn btn-default add-task",
@@ -2337,7 +2418,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        _vm.addTask(_vm.taskName)
+        _vm.addTask(_vm.taskName, _vm.deadline)
       }
     }
   }, [_vm._v("Add task")])])])])])
@@ -2349,6 +2430,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "input-group-addon"
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-th"
   })])
 }]}
 module.exports.render._withStripped = true
@@ -2678,7 +2765,21 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('div', {
     staticClass: "row"
-  }, [_c('nav', {
+  }, [_vm._l((_vm.errors), function(error) {
+    return _c('div', {
+      staticClass: "alert alert-danger",
+      attrs: {
+        "role": "alert"
+      }
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-exclamation-sign",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    }), _vm._v(" "), _c('span', {
+      staticClass: "sr-only"
+    }, [_vm._v("Error:")]), _vm._v(" " + _vm._s(error) + "\n        ")])
+  }), _vm._v(" "), _c('nav', {
     staticClass: "navbar navbar-default project"
   }, [_c('div', {
     staticClass: "container-fluid"
@@ -2760,7 +2861,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })]) : _vm._e()])])])]), _vm._v(" "), _c('create-task', {
+  })]) : _vm._e()])])])], 2), _vm._v(" "), _c('create-task', {
     on: {
       "create-task": _vm.handleCreateTask
     }
@@ -2867,7 +2968,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _vm._m(0)])])]), _vm._v(" "), _c('td', {
     attrs: {
-      "width": "70%"
+      "width": "72%"
     }
   }, [_c('div', {
     staticClass: "input-group task-input"
@@ -2901,7 +3002,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })])]), _vm._v(" "), _c('td', {
     staticClass: "edit-task-buttons",
     attrs: {
-      "width": "20%"
+      "width": "18%"
     }
   }, [(_vm.task.edit) ? _c('span', {
     staticClass: "edit glyphicon glyphicon-ok",
@@ -13085,8 +13186,10 @@ var app = new Vue({
     data: {
         user: user,
         projects: projects,
-        projectName: ''
+        projectName: '',
+        errors: []
     },
+
     methods: {
         logout: function logout() {
             this.user = {};
@@ -13105,8 +13208,14 @@ var app = new Vue({
                 projectName: projectName
             }).then(function (response) {
                 self.projects.unshift(response.data);
+                self.errors.splice(0, self.errors.length);
             }).catch(function (error) {
-                console.log(error);
+                if (error.response) {
+                    self.errors.splice(0, self.errors.length);
+                    $.each(error.response.data, function (i, key) {
+                        self.errors.push(key);
+                    });
+                }
             });
             this.projectName = '';
         },
@@ -13146,27 +13255,6 @@ var app = new Vue({
                 return 'project';
             }
         }
-    }
-});
-
-$(".sortable").sortable({
-    delay: 150,
-    axis: "y",
-    cursor: "move",
-    classes: {
-        "ui-icon-arrowthick-2-n-s": "glyphicon-move"
-    },
-    update: function update(event, ui) {
-        var newOrder = [];
-        $('.sortable tr').each(function () {
-            var id = $(this).attr("id");
-            newOrder.push(id);
-        });
-        axios.post('/sortTask', {
-            order: newOrder
-        }).then(function (response) {}).catch(function (error) {
-            console.log(error);
-        });
     }
 });
 

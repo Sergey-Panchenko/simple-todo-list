@@ -14,7 +14,7 @@ class IndexController extends Controller
         $projects = collect([])->toJson();
         if (\Auth::check()) {
             $user = \Auth::user()->toJson();
-            $projects = Project::with('tasks')->where('user_id',\Auth::user()->id)->get()->toJson();
+            $projects = Project::with('tasks')->where('user_id',\Auth::user()->id)->orderBy('created_at', 'DESC')->get()->toJson();
         }
         return view('index', compact('projects', 'user'));
     }
@@ -53,10 +53,17 @@ class IndexController extends Controller
 
     public function createTask(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'project_id' => 'required',
+            'deadline' => 'required',
+        ]);
         $name = $request->get('name');
         $project_id = $request->get('project_id');
+        $deadline = $request->get('deadline');
         $task = new Task();
         $task->name = $name;
+        $task->deadline = $deadline;
         $task->project_id = $project_id;
         $task->position = 0;
         $task->save();
@@ -65,6 +72,9 @@ class IndexController extends Controller
 
     public function createProject(Request $request)
     {
+        $this->validate($request, [
+            'projectName' => 'required|string',
+        ]);
         $name = $request->get('projectName');
         $project = new Project();
         $project->name = $name;

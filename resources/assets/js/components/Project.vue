@@ -1,6 +1,10 @@
 <template>
     <div>
         <div class="row">
+            <div class="alert alert-danger" role="alert" v-for="error in errors">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                <span class="sr-only">Error:</span> {{error}}
+            </div>
             <nav class="navbar navbar-default project">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -81,24 +85,35 @@
                         console.log(error);
                     });
             },
-            handleCreateTask: function (taskName) {
+            handleCreateTask: function (taskName, deadline) {
                 let project = this.project;
+                let self = this;
                 if ('tasks' in project) {
                 }else{
                     project.tasks = [];
                 }
                 axios.post('createTask', {
                     name: taskName,
-                    project_id: project.id
+                    project_id: project.id,
+                    deadline: deadline
                 })
                     .then(function (response) {
                         project.tasks.unshift(response.data);
+                        self.errors.splice(0, self.errors.length);
                     })
                     .catch(function (error) {
-                        console.log(error);
+                        if (error.response) {
+                            self.errors.splice(0, self.errors.length);
+                            $.each(error.response.data, function (i, key) {
+                                self.errors.push(key);
+                            });
+                        }
                     });
             }
 
+        },
+        data: function () {
+          return {errors: []};
         },
         props: ['project', 'projectIndex']
     }

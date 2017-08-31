@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->integer('project_id');
             $table->string('name');
             $table->integer('position');
+            $table->date('deadline');
             $table->tinyInteger('edit')->default(0);
             $table->tinyInteger('is_completed')->default(0);
             $table->timestamps();

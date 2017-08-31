@@ -11,7 +11,7 @@
                 </label>
             </div>
         </td>
-        <td width="70%">
+        <td width="72%">
             <div class="input-group task-input">
                     <span class="input-group-addon add-icon">
                     </span>
@@ -20,7 +20,7 @@
                        v-model="task.name" :disabled="!task.edit">
             </div>
         </td>
-        <td width="20%" class="edit-task-buttons">
+        <td width="18%" class="edit-task-buttons">
             <span v-if="task.edit" @click="taskUpdate(taskIndex)"  class="edit glyphicon glyphicon-ok"></span>
             <span v-if="!task.edit" class="glyphicon glyphicon-move"></span>
             <span  v-if="!task.edit" @click="taskEdit(taskIndex)"  class="glyphicon glyphicon-pencil"></span>
@@ -31,6 +31,32 @@
 
 <script>
     export default {
+        mounted: function () {
+
+            $(".sortable").sortable({
+                delay: 150,
+                axis: "y",
+                cursor: "move",
+                classes: {
+                    "ui-icon-arrowthick-2-n-s": "glyphicon-move",
+                },
+                update: function (event, ui) {
+                    let newOrder = [];
+                    $('.sortable tr').each(function () {
+                        let id = $(this).attr("id");
+                        newOrder.push(id);
+                    });
+                    axios.post('/sortTask', {
+                        order: newOrder,
+                    })
+                        .then(function (response) {
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+            });
+        },
         methods: {
             removeTask: function (taskIndex) {
                 this.$emit('remove-task', taskIndex);
