@@ -16,12 +16,11 @@ class IndexController extends Controller
     public function index()
     {
         $user = collect([])->toJson();
-        $projects = collect([])->toJson();
         if (\Auth::check()) {
-            $user = \Auth::user()->toJson();
-            $projects = Project::with('tasks')->where('user_id', \Auth::user()->id)->orderBy('created_at', 'DESC')->get()->toJson();
+            $user = \Auth::user()->with('projects')->first()->toJson();
+//            dd($user);
         }
-        return view('index', compact('projects', 'user'));
+        return view('index', compact('user'));
     }
 
 }

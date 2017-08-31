@@ -11,7 +11,7 @@ var app = new Vue({
     el: '#app',
     data: {
         user: user,
-        projects: projects,
+        projects: user.projects,
         projectName: '',
         errors: [],
     },
@@ -86,7 +86,7 @@ var app = new Vue({
     computed: {
         currentComponent: {
             get: function () {
-                if (!this.user.name) {
+                if ($.isEmptyObject(this.user)) {
                     return 'auth';
                 }
                 return 'project';

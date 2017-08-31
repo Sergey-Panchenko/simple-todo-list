@@ -2995,6 +2995,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: {
       'is-completed': _vm.task.is_completed
     },
+    staticStyle: {
+      "width": "310px"
+    },
     attrs: {
       "type": "text",
       "aria-describedby": "basic-addon1",
@@ -3025,6 +3028,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "task.deadline"
     }],
     staticClass: "form-control task-deadline",
+    staticStyle: {
+      "width": "100px"
+    },
     attrs: {
       "disabled": !_vm.task.edit,
       "data-date-format": "dd/mm/yyyy",
@@ -13226,7 +13232,7 @@ var app = new Vue({
     el: '#app',
     data: {
         user: user,
-        projects: projects,
+        projects: user.projects,
         projectName: '',
         errors: []
     },
@@ -13290,7 +13296,7 @@ var app = new Vue({
     computed: {
         currentComponent: {
             get: function get() {
-                if (!this.user.name) {
+                if ($.isEmptyObject(this.user)) {
                     return 'auth';
                 }
                 return 'project';

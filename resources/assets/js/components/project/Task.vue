@@ -12,12 +12,12 @@
         </td>
         <td width="72%">
             <div class="input-group task-input"  style="display: inline-block;" >
-                <input type="text" v-bind:class="{ 'is-completed': task.is_completed}" class="form-control task-title"
+                <input style="width: 310px;"  type="text" v-bind:class="{ 'is-completed': task.is_completed}" class="form-control task-title"
                        aria-describedby="basic-addon1"
                        v-model="task.name" :disabled="!task.edit">
             </div>
             <div class="input-group date" data-provide="datepicker"  style="display: inline-block;" >
-                <input :disabled="!task.edit"  v-model="task.deadline" data-date-format="dd/mm/yyyy" type="text" class="form-control task-deadline"
+                <input style="width: 100px;" :disabled="!task.edit"  v-model="task.deadline" data-date-format="dd/mm/yyyy" type="text" class="form-control task-deadline"
                        placeholder="Deadline">
             </div>
         </td>
