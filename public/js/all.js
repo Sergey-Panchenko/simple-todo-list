@@ -13236,7 +13236,6 @@ var app = new Vue({
         projectName: '',
         errors: []
     },
-
     methods: {
         logout: function logout() {
             this.user = {};
@@ -13256,6 +13255,7 @@ var app = new Vue({
             }).then(function (response) {
                 self.projects.unshift(response.data);
                 self.errors.splice(0, self.errors.length);
+                self.projectName = '';
             }).catch(function (error) {
                 if (error.response) {
                     self.errors.splice(0, self.errors.length);
@@ -13264,7 +13264,6 @@ var app = new Vue({
                     });
                 }
             });
-            this.projectName = '';
         },
         handleRemoveProject: function handleRemoveProject(projectIndex) {
             var project = this.projects[projectIndex];

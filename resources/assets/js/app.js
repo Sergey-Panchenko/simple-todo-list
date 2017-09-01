@@ -7,7 +7,7 @@ Vue.component('login', require('./components/Login.vue'));
 Vue.component('register', require('./components/Register.vue'));
 Vue.component('auth', require('./components/Auth.vue'));
 
-var app = new Vue({
+const app = new Vue({
     el: '#app',
     data: {
         user: user,
@@ -15,7 +15,6 @@ var app = new Vue({
         projectName: '',
         errors: [],
     },
-
     methods: {
         logout: function () {
             this.user = {};
@@ -40,6 +39,7 @@ var app = new Vue({
                 .then(function (response) {
                     self.projects.unshift(response.data);
                     self.errors.splice(0, self.errors.length);
+                    self.projectName = '';
                 })
                 .catch(function (error) {
                     if (error.response) {
@@ -49,7 +49,6 @@ var app = new Vue({
                         });
                     }
                 });
-            this.projectName = '';
         },
         handleRemoveProject: function (projectIndex) {
             let project = this.projects[projectIndex];
