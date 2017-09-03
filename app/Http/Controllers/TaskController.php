@@ -78,7 +78,6 @@ class TaskController extends Controller
     public function sort(Request $request)
     {
         $newOrder = $request->get('order');
-
         foreach ($newOrder as $position => $taskId) {
             $task = Task::find($taskId);
             $task->position = $position;

@@ -1870,6 +1870,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1966,8 +1969,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['project', 'currentProjectIndex'],
     created: function created() {},
     mounted: function mounted() {
-        var self = this;
 
+        var self = this;
         $('.add-task').click(function (e) {
             e.preventDefault();
             $('#modal-add-task').modal();
@@ -1990,6 +1993,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bus__ = __webpack_require__("./resources/assets/js/bus.js");
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2125,6 +2134,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.task.deadline = dateText;
             },
             dateFormat: 'yy-mm-dd'
+        });
+        $('#sortable').sortable({
+            delay: 150,
+            axis: "y",
+            cancel: "input",
+            classes: {
+                "ui-icon-arrowthick-2-n-s": "sortable-move",
+                "ui-state-default": "task-item"
+            },
+            update: function update(event, ui) {
+                var newOrder = [];
+                $('#sortable .task-item').each(function () {
+                    var id = $(this).data('id');
+                    newOrder.push(id);
+                });
+                axios.post('/sortTask', {
+                    order: newOrder
+                }).then(function (response) {
+                    __WEBPACK_IMPORTED_MODULE_0__bus__["a" /* default */].$emit('show-toast', 'success', {
+                        title: 'OK',
+                        message: 'Sorting was successful!',
+                        position: 'topLeft',
+                        transitionIn: 'bounceInRight'
+                    });
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            }
         });
     }
 });
@@ -2675,6 +2712,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row task-item",
     class: {
       'important': !!_vm.task.is_important, 'completed': _vm.task.is_completed
+    },
+    attrs: {
+      "data-id": _vm.task.id
     }
   }, [_c('div', {
     staticClass: "col-md-9 task-info"
@@ -2804,10 +2844,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]) : _vm._e()])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button"
-    }
+    staticClass: "sortable-move btn btn-default"
   }, [_c('span', {
     staticClass: "glyphicon glyphicon-move"
   })])
@@ -2925,7 +2962,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])]), _vm._v(" "), _vm._l((_vm.project.tasks), function(task, taskIndex) {
+  })])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])]), _vm._v(" "), _c('div', {
+    attrs: {
+      "id": "sortable"
+    }
+  }, _vm._l((_vm.project.tasks), function(task, taskIndex) {
     return _c('task', {
       key: task.id,
       attrs: {
@@ -2938,7 +2979,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     })
-  }), _vm._v(" "), _c('div', {
+  })), _vm._v(" "), _c('div', {
     staticClass: "modal fade bs-example-modal-lg",
     attrs: {
       "id": "modal-add-task",
@@ -3067,7 +3108,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.createTask
     }
-  }, [_vm._v("CREATE")])])])])])], 2)
+  }, [_vm._v("CREATE")])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "navbar-header"

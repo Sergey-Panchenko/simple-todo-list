@@ -41,11 +41,14 @@
 
             </div>
         </nav>
-        <task @task-delete="handleTaskDelete()"
-              v-for="(task, taskIndex) in project.tasks"
-              :taskIndex="taskIndex"
-              :task="task"
-              :key="task.id"></task>
+        <div id="sortable">
+
+            <task @task-delete="handleTaskDelete()"
+                  v-for="(task, taskIndex) in project.tasks"
+                  :taskIndex="taskIndex"
+                  :task="task"
+                  :key="task.id"></task>
+        </div>
 
         <div class="modal fade bs-example-modal-lg" id="modal-add-task" tabindex="-1">
             <div class="modal-dialog" role="document">
@@ -191,8 +194,8 @@
         created: function () {
         },
         mounted: function () {
-            let self = this;
 
+            let self = this;
             $('.add-task').click(function (e) {
                 e.preventDefault();
                 $('#modal-add-task').modal()
