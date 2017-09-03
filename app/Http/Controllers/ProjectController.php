@@ -35,6 +35,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|string',
+        ]);
         $id = $request->get('id');
         $name = $request->get('name');
         $project = Project::find($id);

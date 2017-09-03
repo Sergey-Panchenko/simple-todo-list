@@ -33,6 +33,7 @@ const app = new Vue({
         },
         createProject: function (projectName) {
             let self = this;
+
             axios.post('/createProject', {
                 projectName: projectName,
             })

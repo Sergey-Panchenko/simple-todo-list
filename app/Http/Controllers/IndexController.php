@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\User;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -15,12 +16,13 @@ class IndexController extends Controller
      */
     public function index()
     {
+//        \Auth::logout();
         $user = collect([])->toJson();
         if (\Auth::check()) {
-            $user = \Auth::user()->with('projects')->first()->toJson();
-//            dd($user);
+            $user = User::with('projects')->find(\Auth::user()->id)->toJson();
         }
-        return view('index', compact('user'));
+//        dd(\Auth::user());
+        return view('todo-list', compact('user'));
     }
 
 }

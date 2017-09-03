@@ -12,34 +12,33 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-//$factory->define(App\User::class, function (Faker\Generator $faker) {
-//    static $password;
-//
-//    return [
-//        'name' => $faker->name,
-//        'email' => $faker->unique()->safeEmail,
-//        'password' => $password ?: $password = bcrypt('secret'),
-//        'remember_token' => str_random(10),
-//    ];
-//});
+$factory->define(App\User::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
+        'password' => $password ?: $password = bcrypt('secret'),
+        'remember_token' => str_random(10),
+    ];
+});
 
 $factory->define(\App\Models\Project::class, function (Faker\Generator $faker) {
-  static $project_position = 0;
-  $project_position++;
-  return [
-    'name' => $faker->sentence(4),
-    'position' => $project_position,
-  ];
+    return [
+        'name' => $faker->sentence(4),
+        'user_id' => \App\User::first()->id
+    ];
 });
 
 $factory->define(\App\Models\Task::class, function (Faker\Generator $faker) {
-  static $task_position = 0;
-  $task_position++;
-  return [
-    'name' => $faker->sentence(4),
-    'position' => $task_position,
-    'project_id' => \App\Models\Project::all()->random(1)->first()->id,
-  ];
+    static $task_position = 0;
+    $task_position++;
+    return [
+        'name' => $faker->sentence(4),
+        'position' => $task_position,
+        'project_id' => \App\Models\Project::all()->random(1)->first()->id,
+        'is_important' => rand(0,1)
+    ];
 });
 
 

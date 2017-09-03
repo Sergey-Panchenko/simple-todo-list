@@ -103,20 +103,13 @@ class LoginController extends Controller
         return $request->only($this->username(), 'password');
     }
 
-    /**
-     * Send the response after the user was authenticated.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
-        $data = collect(['user' => $this->guard()->user(),
-            'projects' => Project::with('tasks')->where('user_id', $this->guard()->user()->id)->get()]);
-        return $data->toJson();
+
+        return User::with('projects')->find($this->guard()->user()->id)->toJson();
     }
 
     /**

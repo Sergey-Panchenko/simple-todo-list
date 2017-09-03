@@ -1,121 +1,209 @@
 <template>
-    <div>
-        <div class="row">
-            <div class="alert alert-danger" role="alert" v-for="error in errors">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                <span class="sr-only">Error:</span> {{error}}
+    <div class="col-md-8">
+        <nav class="navbar" id="project-navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <span class="navbar-brand glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <form class="navbar-form navbar-left">
+                        <div class="form-group">
+                            <input v-model="project.name"
+                                   :disabled="!statusEdit"
+                                   type="text" class="form-control"
+                            >
+                        </div>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li v-if="!statusEdit">
+                            <a @click="deleteProject">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li v-if="!statusEdit">
+                            <a @click="switchStatus">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li v-if="statusEdit" class="end-edit">
+                            <a @click="updateProjects">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="add-task">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;&nbsp;Task
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
             </div>
-            <nav class="navbar navbar-default project">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <span class="navbar-brand glyphicon glyphicon-calendar" aria-hidden="true"></span>
+        </nav>
+        <task @task-delete="handleTaskDelete()"
+              v-for="(task, taskIndex) in project.tasks"
+              :taskIndex="taskIndex"
+              :task="task"
+              :key="task.id"></task>
+
+        <div class="modal fade bs-example-modal-lg" id="modal-add-task" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Creating a new task!</h4>
                     </div>
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <form class="navbar-form navbar-left">
+                    <div class="modal-body">
+                        <form class="form-horizontal">
                             <div class="form-group">
-                                <input v-model="project.name" type="text" class="project-title form-control" :disabled="!project.edit">
+                                <label for="task-name">Name</label>
+                                <input v-model="newTask.name" type="text" class="form-control" id="task-name"
+                                       placeholder="Start typing here to create a task ...">
                             </div>
+                            <div class="form-group">
+                                <label for="deadline">Deadline</label>
+                                <input v-model="newTask.deadline" data-format="Y-m-d" data-large-mode="true"
+                                       data-min-year="2000" data-max-year="2090" data-large-default="true"
+                                       type="text" class="form-control" id="deadline">
+                            </div>
+                            <div class="form-group">
+                                <label for="priority">Priority</label>
+                                <select v-model="newTask.is_important" class="form-control" id="priority">
+                                    <option value="0">Default</option>
+                                    <option value="1">Important</option>
+                                </select>
+                            </div>
+
                         </form>
-                        <button v-if="project.edit" @click="projectUpdate(projectIndex)" type="button" class="btn btn-default navbar-btn navbar-right" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        </button>
-                        <button v-if="!project.edit" @click="removeProject(projectIndex)" type="button"
-                                class="btn btn-default navbar-btn navbar-right" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </button>
-                        <button v-if="!project.edit" @click="projectEdit(projectIndex)" type="button" class="btn btn-default navbar-btn navbar-right" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                        </button>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+                        <button @click="createTask" type="button" class="btn btn-primary">CREATE</button>
                     </div>
                 </div>
-            </nav>
+            </div>
         </div>
-        <create-task @create-task="handleCreateTask"></create-task>
-        <div class="row">
-            <table class="table table-bordered">
-                <tbody class="sortable">
-                <task @update-task="handleUpdateTask" @edit-task="handleEditTask" @remove-task="handleRemoveTask" v-for="(task, taskIndex) in project.tasks" :taskIndex="taskIndex"
-                      v-bind:task="task" v-bind:key="task.id"></task>
-                </tbody>
-            </table>
-        </div>
+
     </div>
+
+
 </template>
 
 <script>
+    import bus from '../bus';
     export default {
+        data: function () {
+            return {
+                newTask: {
+                    name: '',
+                    deadline: '',
+                    is_important: 0
+                },
+                statusEdit: false,
+            }
+        },
         methods: {
-            removeProject: function (projectIndex) {
-                this.$emit('remove-project', projectIndex);
+            switchStatus: function () {
+                this.statusEdit = !this.statusEdit;
             },
-            projectEdit: function (projectIndex) {
-                this.$emit('edit-project', projectIndex);
-            },
-            projectUpdate: function (projectIndex) {
-                this.$emit('update-project', projectIndex);
-            },
-            handleRemoveTask: function (taskIndex) {
-                let task = this.project.tasks[taskIndex];
-                let project = this.project
-                axios.post('deleteTask', {
-                    id: task.id,
-                })
-                    .then(function (response) {
-                        project.tasks.splice(taskIndex, 1);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            handleEditTask: function (taskIndex) {
-                Vue.set(this.project.tasks[taskIndex], 'edit', true);
-            },
-            handleUpdateTask: function (taskIndex) {
-                let task = this.project.tasks[taskIndex];
-                let project = this.project;
-                axios.post('updateTask', {
-                    id: task.id,
-                    name: task.name,
-                    deadline: task.deadline,
-                    is_completed: task.is_completed,
-                })
-                    .then(function (response) {
-                        Vue.set(project.tasks[taskIndex], 'edit', false);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            handleCreateTask: function (taskName, deadline) {
-                let project = this.project;
+            updateProjects: function () {
                 let self = this;
-                if ('tasks' in project) {
-                }else{
-                    project.tasks = [];
-                }
-                axios.post('createTask', {
-                    name: taskName,
-                    project_id: project.id,
-                    deadline: deadline
+                let dataToast = {
+                    title: 'OK',
+                    message: 'Project successfully updated!',
+                    position: 'topLeft',
+                    transitionIn: 'bounceInRight',
+                };
+                axios.post('/updateProject', {
+                    id: self.project.id,
+                    name: self.project.name
                 })
                     .then(function (response) {
-                        project.tasks.unshift(response.data);
-                        self.errors.splice(0, self.errors.length);
+                        self.switchStatus();
+                        bus.$emit('show-toast', 'success', dataToast);
                     })
                     .catch(function (error) {
                         if (error.response) {
-                            self.errors.splice(0, self.errors.length);
                             $.each(error.response.data, function (i, key) {
-                                self.errors.push(key);
+                                dataToast.message = key;
+                                dataToast.title = '';
+                                bus.$emit('show-toast', 'error', dataToast);
                             });
                         }
                     });
+            },
+            handleTaskDelete: function (taskIndex, projectId) {
+                this.project.tasks.splice(taskIndex, 1);
+            },
+            deleteProject: function () {
+                let self = this;
+                let dataToast = {
+                    title: 'OK',
+                    message: 'Project successfully deleted!',
+                    position: 'topLeft',
+                    transitionIn: 'bounceInRight',
+                };
+                axios.post('deleteProject', {
+                    id: self.project.id,
+                }).then(function (response) {
+                    self.$emit('project-delete', self.currentProjectIndex);
+                    bus.$emit('show-toast', 'success', dataToast);
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            createTask: function () {
+                let self = this;
+                let dataToast = {
+                    title: 'OK',
+                    message: 'New task "' + self.newTask.name + '" was successfully created!',
+                    position: 'topLeft',
+                    transitionIn: 'bounceInRight',
+                };
+                axios.post('createTask', {
+                    name: self.newTask.name,
+                    project_id: self.project.id,
+                    deadline: self.newTask.deadline,
+                    is_important: self.newTask.is_important
+                }).then(function (response) {
+                    self.project.tasks.unshift(response.data);
+                    $('#modal-add-task').modal('hide');
+                    bus.$emit('show-toast', 'success', dataToast);
+                    self.newTask.name = '';
+                    self.newTask.deadline = '';
+                    self.newTask.is_important = 0;
+//                    self.errors.splice(0, self.errors.length);
+                }).catch(function (error) {
+                    if (error.response) {
+                        $.each(error.response.data, function (i, key) {
+                            dataToast.message = key;
+                            dataToast.title = '';
+                            bus.$emit('show-toast', 'error', dataToast);
+                        });
+                    }
+                });
             }
+        },
+        props: ['project', 'currentProjectIndex'],
+        created: function () {
+        },
+        mounted: function () {
+            let self = this;
 
-        },
-        data: function () {
-          return {errors: []};
-        },
-        props: ['project', 'projectIndex']
+            $('.add-task').click(function (e) {
+                e.preventDefault();
+                $('#modal-add-task').modal()
+            });
+            $('#deadline').datepicker({
+                onSelect: function (dateText) {
+                    self.newTask.deadline = dateText;
+                },
+                dateFormat: 'yy-mm-dd',
+            });
+        }
+
     }
 </script>

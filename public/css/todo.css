@@ -1,0 +1,273 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-image: url(../img/background.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.container.main {
+    max-width: 770px;
+}
+
+#main-navbar .navbar-brand {
+    font-weight: bold;
+    color: white;
+}
+
+#main-navbar .navbar-header {
+    padding-left: 15px;
+}
+
+#main-navbar .navbar-header:hover {
+    cursor: pointer;
+    border-radius: 20px;
+    background-color: #a94442;
+}
+
+#main-navbar .navbar-right a {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+
+#main-navbar .navbar-right a.user-profile:hover {
+    color: white;
+    border: none;
+}
+
+#main-navbar .navbar-right a.user-profile {
+    text-transform: uppercase;
+    color: #a94442;
+    font-weight: bolder;
+}
+
+#main-navbar .navbar-right a:hover {
+    cursor: pointer;
+    border-radius: 20px;
+    background-color: #a94442;
+}
+
+#main-navbar .navbar-right a:focus {
+    background: none;
+}
+
+.container.login-container, .container.registration-container {
+    max-width: 400px;
+}
+
+.container.login-container label, .container.registration-container label {
+    color: #a94442;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.container.login-container button, .container.registration-container button {
+    font-size: 15px;
+    width: 40%;
+    font-weight: bold;
+}
+
+.container.profile-container {
+    max-width: 1080px
+}
+
+.profile-container .project-list {
+    overflow-y: scroll;
+    max-height: 500px;
+}
+
+.project-list .badge-danger {
+    background-color: #a94242;
+}
+
+.project-list .badge-info {
+    background-color: #3c763d;
+}
+
+.project-list .project-name {
+    color: white;
+}
+
+.project-list .list-group-item {
+    background-color: rgba(49, 112, 143, 0.23);
+    border: none;
+    border-bottom: 1px solid #a94442;
+}
+
+#project-navbar {
+    background-color: rgba(169, 68, 66, 0.75);
+}
+
+#project-navbar .navbar-text {
+    color: #fff;
+}
+
+.task-item .task-status {
+    background-color: #2ab27b;
+}
+
+.task-item .task-deadline {
+    margin: 0 -12px;
+    /*background-color: #90b;*/
+}
+
+.task-item .task-info .input-group {
+    margin: 0 -14px;
+}
+
+.task-item .task-info .input-group-addon {
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.task-item .task-info button {
+    color: white;
+    font-size: 16px;
+    border: none;
+    box-shadow: none;
+    background: none;
+    background-color: transparent;
+}
+
+.task-item .task-info button:focus {
+    color: #fff;
+    outline: none;
+    background: none;
+    border: none;
+}
+
+.task-item .task-actions button {
+    color: #fff;
+    padding: 6px 8px;
+    background: none;
+    border: none;
+    border-radius: 9px;
+}
+
+.task-item .task-actions button:hover {
+    font-size: 18px;
+    padding: 3px 6px;
+
+}
+
+.task-item .task-actions .btn-group {
+    margin: 0 -20px 0 -15px;
+}
+
+.task-item .input-group input:disabled {
+    background: none;
+    background-color: transparent;
+    box-shadow: none;
+    color: #fff;
+    border: none;
+
+}
+
+.task-item .input-group input {
+    background: none;
+    background-color: rgb(62, 97, 117);
+    box-shadow: none;
+    border-radius: 10px !important;
+    color: #fff;
+}
+
+.task-item.completed .input-group input {
+    color: #333;
+    text-decoration: line-through;
+}
+
+.row.task-item.completed {
+    background-color: rgba(85, 85, 85, 0.61);
+}
+
+.task-item {
+    background-color: rgba(60, 118, 61, 0.54);
+    border-bottom: 5px rgba(51, 51, 51, 0.62) solid;
+}
+
+.task-item.important {
+    background-color: rgba(169, 68, 66, 0.62);
+}
+
+.task-item .task-deadline .input-group {
+    margin: 0 -8px;
+}
+
+.project-list li:hover {
+    cursor: pointer;
+    color: #337ab7;
+    background-color: rgba(169, 68, 66, 0.2);
+}
+
+.project-list .active-project.list-group-item {
+    background-color: rgba(49, 112, 143, 0.68);
+}
+
+.task-info button {
+    cursor: pointer;
+}
+
+#project-navbar .navbar-right a {
+    color: #dff0d8;
+}
+
+#project-navbar .navbar-right .end-edit a {
+    color: #5ab74d;
+    font-size: 16px;
+}
+
+#project-navbar .navbar-right a:hover {
+    cursor: pointer;
+    color: #fff;
+    background: none;
+    font-size: 18px;
+    margin: -1px -5px;
+}
+
+#modal-add-task .modal-body {
+    margin: 2px 10px;
+}
+
+#project-navbar .navbar-form .form-group input:disabled {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    color: #fff;
+}
+
+#project-navbar .navbar-form .form-group input {
+    background-color: rgb(62, 97, 117);
+    box-shadow: none;
+    color: #fff;
+}
+
+#project-navbar .navbar-form {
+    width: 70%;
+}
+
+#project-navbar .navbar-form .form-group {
+    width: 100%;
+}
+
+#project-navbar .navbar-form .form-group input {
+    width: 100%;
+}
+
+.task-actions .btn-group .end-edit {
+    margin-left: 20px;
+}
+.row.task-item {
+    padding: 3px 0;
+}
+.task-info {
+    margin-right: 7px;
+}
+.container.home {
+    max-width: 700px;
+}

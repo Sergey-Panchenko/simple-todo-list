@@ -18,11 +18,9 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
         $user = $this->create($request->all());
+        \Auth::loginUsingId($user->id);
 
-        $this->guard()->login($user);
-        $data = collect(['user' => $this->guard()->user(),
-            'projects' => Project::with('tasks')->where('user_id', $this->guard()->user()->id)->get()]);
-        return $data->toJson();
+        return User::with('projects')->find($user->id)->toJson();
     }
 
     /**

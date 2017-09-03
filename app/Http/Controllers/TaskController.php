@@ -20,11 +20,15 @@ class TaskController extends Controller
             'name' => 'required|string',
             'project_id' => 'required',
             'deadline' => 'required',
+            'is_important' => 'required',
         ]);
         $name = $request->get('name');
         $project_id = $request->get('project_id');
         $deadline = $request->get('deadline');
+        $is_important = $request->get('is_important');
         $task = new Task();
+        $task->is_important = $is_important * 1;
+        $task->is_completed = 0;
         $task->name = $name;
         $task->deadline = $deadline;
         $task->project_id = $project_id;
@@ -40,6 +44,10 @@ class TaskController extends Controller
      */
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|string',
+            'deadline' => 'required',
+        ]);
         $id = $request->get('id');
         $task = Task::find($id);
         $name = $request->get('name');
