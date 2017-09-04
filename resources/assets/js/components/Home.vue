@@ -2,7 +2,7 @@
     <div class="container home">
         <div class="embed-responsive embed-responsive-16by9">
             <iframe id="ytplayer" type="text/html" width="720" height="405"
-                    src="https://www.youtube.com/embed/ibGnjSKLqTc?start=16&autoplay=1&controls=0&fs=0&rel=0&showinfo=0"
+                    src="https://www.youtube.com/embed/ibGnjSKLqTc?start=16&autoplay=1&controls=0&fs=0&rel=0&end=25&showinfo=0"
                     frameborder="0" allowfullscreen>
             </iframe>
         </div>
