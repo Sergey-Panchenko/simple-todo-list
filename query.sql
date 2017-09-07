@@ -1,7 +1,6 @@
 
 --1.
---did not understand the tasks
-
+SELECT DISTINCT name FROM tasks
 
 --2. get the count of all tasks in each project, order by tasks count descending
 Select projects.name, COUNT(projects.name) as 'count_tasks'
